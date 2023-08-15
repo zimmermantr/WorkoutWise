@@ -1,9 +1,9 @@
 from rest_framework.serializers import ModelSerializer
 from .models import Exercise
-from muscle_app.serializers import MuscleSerializer
+# from muscle_app.serializers import MuscleSerializer
 
 class ExerciseSerializer(ModelSerializer):
-    targeted_muscles = MuscleSerializer(many=True)
+    # targeted_muscles = MuscleSerializer(many=True)
 
     class Meta:
         model = Exercise

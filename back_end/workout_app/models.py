@@ -6,7 +6,7 @@ class Workout(models.Model):
     workout_name = models.CharField(unique=True)
     app_user = models.ForeignKey(App_user, on_delete=models.CASCADE, related_name="workouts")
     workout_details = models.TextField()
-    #exercies, linked to Exercise
+    #exercises, linked to Exercise
 
     def __str__(self):
         return f"{self.workout_name}"

@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'workout_app',
     'exercise_app',
-    'muscle_app'
+    # 'muscle_app',
+    # 'api_app'
 ]
 
 MIDDLEWARE = [
