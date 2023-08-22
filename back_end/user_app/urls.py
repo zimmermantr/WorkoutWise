@@ -5,5 +5,5 @@ urlpatterns = [
     path('register/', Register.as_view()),
     path('logout/', Log_out.as_view()),
     path('login/', Log_in.as_view()),
-    path('info/', Info.as_view())
+    path('', Info.as_view())
 ]
