@@ -7,6 +7,7 @@ import { WorkoutPage } from "./pages/WorkoutPage";
 import { ExercisesPage } from "./pages/ExercisesPage";
 import { Error404Page } from "./pages/Error404Page";
 import App from "./App";
+import { MyExercises } from "./pages/MyExercises";
 
 export const router = createBrowserRouter([
     {
@@ -34,8 +35,12 @@ export const router = createBrowserRouter([
                 element: <WorkoutPage />
             },
             {
-                path: "exercises",
+                path: "exercises/:searchParameters",
                 element: <ExercisesPage />
+            },
+            {
+                path: "myexercises",
+                element: <MyExercises />
             },
             {
                 path: "*",

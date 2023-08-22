@@ -7,9 +7,10 @@ class ExerciseSerializer(ModelSerializer):
 
     class Meta:
         model = Exercise
-        fields = ['id', 'exercise_name', 'sets', 'reps', 'difficulty', 'equipment', 'description', 'targeted_muscles', 'parent_workout'] #__all
+        # fields = ['id', 'exercise_name', 'sets', 'reps', 'difficulty', 'equipment', 'description', 'targeted_muscles', 'parent_workout'] #__all
+        fields = ['__all__']
 
-class ExerciseOnlySerializer(ModelSerializer):
-    class Meta:
-        model = Exercise
-        fields = ['id', 'exercise_name', 'sets', 'reps', 'difficulty', 'equipment', 'description']
+# class ExerciseOnlySerializer(ModelSerializer):
+#     class Meta:
+#         model = Exercise
+#         fields = ['id', 'exercise_name', 'sets', 'reps', 'difficulty', 'equipment', 'description']
