@@ -10,7 +10,7 @@ class Exercise(models.Model):
     equipment = models.CharField()
     description = models.TextField()
     targeted_muscles = models.CharField()
-    parent_workout = models.ManyToManyField(Workout, related_name="exercises")
+    parent_workout = models.ManyToManyField(Workout, related_name="exercises", blank=True)
 
     def __str__(self):
         return f"{self.exercise_name}\nSets: {self.sets}\nReps: {self.reps}"

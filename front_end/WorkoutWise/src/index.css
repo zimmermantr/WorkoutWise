@@ -1,4 +1,4 @@
-:root {
+/* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -66,4 +66,21 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+} */
+.exercise-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  max-width: 800px;
+}
+
+.truncated {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expanded {
+  white-space: normal;
+  display: block;
 }

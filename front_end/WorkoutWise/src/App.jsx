@@ -12,10 +12,23 @@ function App() {
   const [user, setUser] = useState(null);
   const apiKey = import.meta.env.VITE_NINJA_API_KEY;
   const navigate = useNavigate();
+  const [exercise, setExercise] = useState([]);
+  const [workout, setWorkout] = useState([]);
+  const [workouts, setWorkouts] = useState([]);
 
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user]);
+  const addExercise = async (exerciseData, workoutId) => {
+    try{
+      const token = localStorage.getItem("token");
+      if (token) {
+        api.defaults.headers.common["Authorization"] = `Token ${token}`;
+        let response = await api.post(`workouts/${workoutId}/exercises/`, exerciseData); 
+      }else {
+        console.log("Token not found")
+      }
+    }catch (error) {
+      console.error("Error adding exercise to workout:", error)
+    }
+  }
 
   const whoAmI = async () => {
     let token = localStorage.getItem("token");
@@ -56,7 +69,7 @@ function App() {
         null
         }
       
-      <userContext.Provider value={{user, setUser, apiKey}}>
+      <userContext.Provider value={{user, setUser, apiKey, workout, setWorkout, addExercise, workouts, setWorkouts }}>
         <Outlet />
       </userContext.Provider>
     </>

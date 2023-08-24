@@ -1,8 +1,8 @@
 import { useState,useEffect, useContext } from "react";
 import axios from "axios";
 import { userContext } from "../App";
-// import ExerciseCard from "../components/ExerciseCard"
 import { useParams, useNavigate } from "react-router-dom";
+import ExerciseCard from "../components/ExerciseCard";
 
 export const ExercisesPage = () => {
     const [exerciseName, setExerciseName] = useState("")
@@ -14,6 +14,7 @@ export const ExercisesPage = () => {
     const { apiKey } = useContext(userContext);
     const { searchParameters } = useParams();
     const navigate = useNavigate();
+    const {workouts, setWorkouts} = useContext(userContext);
     useEffect(() => {
         axios.get(`https://api.api-ninjas.com/v1/exercises?muscle=${searchParameters}`, {
             headers: {
@@ -37,15 +38,19 @@ export const ExercisesPage = () => {
         <>
             <h1>ExercisesPage</h1>
             <ol>
-            {muscleList.map((lift, index) => (
-            <li key={index}>
-            <p>{lift.name} </p>
-            <p>Targeted muscle: {lift.muscle}</p>
-            <p>Equipment needed: {lift.equipment} </p>
-            <p>Difficulty rating: {lift.difficulty} </p>
-            <p>Description: {lift.instructions} </p>
-            </li>
-            ))}
+                {muscleList.map((lift,index) => (
+                    
+                    <ExerciseCard
+                        key={index}
+                        exercise_name={lift.name}
+                        targeted_muscles={lift.muscle}
+                        equipment={lift.equipment}
+                        difficulty={lift.difficulty}
+                        description={lift.instructions}
+                        availableWorkouts={workouts}
+                    />
+                ))}
+            
             </ol>
         </>
     )

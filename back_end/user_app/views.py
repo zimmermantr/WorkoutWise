@@ -37,6 +37,9 @@ class Log_out(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        token_key = request.auth.key  # Get the token key from the request's auth attribute
+        print(f"User {request.user.email} is logging out with token: {token_key}")
+        
         request.user.auth_token.delete()
         return Response(status=HTTP_204_NO_CONTENT) 
 
