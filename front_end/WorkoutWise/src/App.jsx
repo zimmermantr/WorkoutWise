@@ -12,7 +12,6 @@ function App() {
   const [user, setUser] = useState(null);
   const apiKey = import.meta.env.VITE_NINJA_API_KEY;
   const navigate = useNavigate();
-  const [exercise, setExercise] = useState([]);
   const [workout, setWorkout] = useState([]);
   const [workouts, setWorkouts] = useState([]);
 
@@ -21,14 +20,30 @@ function App() {
       const token = localStorage.getItem("token");
       if (token) {
         api.defaults.headers.common["Authorization"] = `Token ${token}`;
-        let response = await api.post(`workouts/${workoutId}/exercises/`, exerciseData); 
-      }else {
-        console.log("Token not found")
+        let response = await api.post(`workouts/${workoutId}/exercises/`, exerciseData);
+        
+        setWorkouts([]);
+        console.log("fetchWorkouts from addExercise")
+        fetchWorkouts();
+        
       }
     }catch (error) {
       console.error("Error adding exercise to workout:", error)
     }
   }
+
+  const fetchWorkouts = async () => {
+    try {
+        const token = localStorage.getItem("token");
+        if (token) {
+            api.defaults.headers.common["Authorization"] = `Token ${token}`;
+            let response = await api.get("workouts/");
+            setWorkouts(response.data);
+        }
+    } catch (error) {
+        console.error("Error fetching workouts:", error);
+    }
+};
 
   const whoAmI = async () => {
     let token = localStorage.getItem("token");
@@ -45,6 +60,8 @@ function App() {
 
   useEffect(() => {
     whoAmI();
+    setWorkouts([]);
+    fetchWorkouts();
   }, []);
 
   const logout = async () => {
@@ -57,8 +74,34 @@ function App() {
     }
   }
 
+  const deleteWorkout = async (workoutId) => {
+    try{
+      const token = localStorage.getItem("token");
+      if (token) {
+        api.defaults.headers.common["Authorization"] = `Token ${token}`;
+        let response = await api.delete(`workouts/${workoutId}/`);
+        fetchWorkouts();
+      }
+    }catch (error) {
+      console.error("Error deleting workout:", error)
+    }
+  }
+
+  const deleteExercise = async (workoutId, exerciseId) => {
+    try{
+      const token = localStorage.getItem("token");
+      if (token) {
+        api.defaults.headers.common["Authorization"] = `Token ${token}`;
+        let response = await api.delete(`workouts/${workoutId}/exercises/${exerciseId}`);
+        fetchWorkouts();
+      }
+    }catch (error) {
+      console.error("Error deleting exercise:", error)
+    }
+  }
+
   return (
-    <>
+    <div className="h-screen flex flex-col">
       
         {
         user?
@@ -69,10 +112,13 @@ function App() {
         null
         }
       
-      <userContext.Provider value={{user, setUser, apiKey, workout, setWorkout, addExercise, workouts, setWorkouts }}>
+      <userContext.Provider value={{user, setUser, apiKey, workout, setWorkout, addExercise, workouts, setWorkouts, deleteWorkout, fetchWorkouts, deleteExercise }}>
         <Outlet />
       </userContext.Provider>
-    </>
+      <div className="mt-auto flex justify-center" >
+        <p className="font-serif text-white rounded "> © 2023 Tristan Zimmerman</p>
+      </div>
+    </div>
   )
 }
 
