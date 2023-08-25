@@ -36,6 +36,7 @@ class A_workout(User_permissions):
         try:
             a_workout = get_object_or_404(request.user.workouts, id=id)
             a_workout.workout_name = request.data.get("workout_name")
+            a_workout.workout_details = request.data.get("workout_details")
             a_workout.save()
             return Response(status=HTTP_204_NO_CONTENT)
         except Exception as e:
@@ -44,5 +45,6 @@ class A_workout(User_permissions):
 
     def delete(self, request, id):
         a_workout = get_object_or_404(request.user.workouts, id=id)
+        a_workout.exercises.all().delete()
         a_workout.delete()
         return Response(status=HTTP_204_NO_CONTENT)
