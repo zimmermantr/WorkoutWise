@@ -6,5 +6,5 @@ class WorkoutSerializer(ModelSerializer):
     exercises = ExerciseSerializer(many=True)
     class Meta:
         model = Workout
-        # fields = ['id', 'workout_name', 'app_user', 'workout_details', 'exercises']
-        fields = ['__all__']
+        fields = ['id', 'workout_name', 'app_user', 'workout_details', 'exercises']
+        # fields = ['__all__']
