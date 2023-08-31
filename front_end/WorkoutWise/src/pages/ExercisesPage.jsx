@@ -5,24 +5,22 @@ import { useParams, useNavigate } from "react-router-dom";
 import ExerciseCard from "../components/ExerciseCard";
 
 export const ExercisesPage = () => {
-    const [exerciseName, setExerciseName] = useState("")
-    const [difficulty, setDifficulty] = useState("")
-    const [equipment, setEquipment] = useState("")
-    const [description, setDescription] = useState("")
-    const [muscle, setMuscle] = useState("")
+
     const [muscleList, setMuscleList] = useState([])
     const { apiKey } = useContext(userContext);
     const { searchParameters } = useParams();
     const navigate = useNavigate();
-    const {workouts, setWorkouts} = useContext(userContext);
+    const {workouts} = useContext(userContext);
+    const [offset, setOffset] = useState(0);
+
     useEffect(() => {
+        setOffset(0);
         axios.get(`https://api.api-ninjas.com/v1/exercises?muscle=${searchParameters}`, {
             headers: {
                 'X-Api-Key': apiKey
             }
         })
         .then((response) =>{
-            console.log(response.data)
             if (response.data.length === 0) {
                 navigate("/*")
             }else{
@@ -34,9 +32,26 @@ export const ExercisesPage = () => {
         });
     }, [searchParameters]);
 
+    const loadMoreExercises = () => {
+        const newOffset = offset + 10;
+        setOffset(newOffset);
+
+        axios.get(`https://api.api-ninjas.com/v1/exercises?muscle=${searchParameters}&offset=${newOffset}`, {
+            headers: {
+                'X-Api-Key': apiKey
+            }
+        })
+        .then((response) => {
+            setMuscleList(prevExercises => [...prevExercises, ...response.data]);
+        })
+        .catch((error) => {
+            setError(error);
+        });
+    };
+
+
     return(
-        <>
-            <h1>ExercisesPage</h1>
+        <div>
             <ol>
                 {muscleList.map((lift,index) => (
                     
@@ -52,6 +67,10 @@ export const ExercisesPage = () => {
                 ))}
             
             </ol>
-        </>
+            <div className="flex justify-center pb-3">
+            <button onClick={loadMoreExercises} className="bg-green-700 hover:bg-green-750 text-white py-1 px-4 rounded w-64">Load More</button>
+            </div>
+
+        </div>
     )
 }
