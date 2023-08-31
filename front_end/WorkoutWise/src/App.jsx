@@ -14,6 +14,7 @@ function App() {
   const navigate = useNavigate();
   const [workout, setWorkout] = useState([]);
   const [workouts, setWorkouts] = useState([]);
+  const [addedToWorkout, setAddedToWorkout] = useState(false);
 
   const addExercise = async (exerciseData, workoutId) => {
     try{
@@ -22,8 +23,6 @@ function App() {
         api.defaults.headers.common["Authorization"] = `Token ${token}`;
         let response = await api.post(`workouts/${workoutId}/exercises/`, exerciseData);
         
-        setWorkouts([]);
-        console.log("fetchWorkouts from addExercise")
         fetchWorkouts();
         
       }
@@ -105,14 +104,14 @@ function App() {
       
         {
         user?
-        (<userContext.Provider value={{logout}}>
+        (<userContext.Provider value={{logout,setAddedToWorkout}}>
           <Navbar />
         </userContext.Provider>)
         :
         null
         }
       
-      <userContext.Provider value={{user, setUser, apiKey, workout, setWorkout, addExercise, workouts, setWorkouts, deleteWorkout, fetchWorkouts, deleteExercise }}>
+      <userContext.Provider value={{user, setUser, apiKey, workout, setWorkout, addExercise, workouts, setWorkouts, deleteWorkout, fetchWorkouts, deleteExercise,addedToWorkout, setAddedToWorkout }}>
         <Outlet />
       </userContext.Provider>
       <div className="mt-auto flex justify-center" >

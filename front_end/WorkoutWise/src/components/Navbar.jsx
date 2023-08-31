@@ -5,7 +5,7 @@ import { api } from "../utilities";
 import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-    const { logout, user } = useContext(userContext);
+    const { logout, user, setAddedToWorkout } = useContext(userContext);
     const [ searchInput, setSearchInput ] = useState("");
     const navigate = useNavigate();
 
@@ -32,6 +32,7 @@ export default function Navbar() {
         event.preventDefault();
         setSearchInput("");
         navigate(`/exercises/${searchInput}`);
+        setAddedToWorkout(false);
     };
 
     const onChangeHandler =(event) => {

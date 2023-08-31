@@ -1,15 +1,16 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { userContext } from "../App";
 import { useLocation } from "react-router-dom";
 
 export default function ExerciseCard(props){
     const [ expanded, setExpanded ] = useState(false);
-    const { addExercise, workout, deleteExercise } = useContext(userContext);
+    const { addExercise, workout, deleteExercise,addedToWorkout, setAddedToWorkout } = useContext(userContext);
     const isOnWorkout = workout.find((exercise) => exercise.exercise_name === props.exercise_name);
     const [selectedWorkout, setSelectedWorkout] = useState(null);
     const location = useLocation();
     const isOnExercisesPage = location.pathname.includes("/exercises");
-    const [addedToWorkout, setAddedToWorkout] = useState(false);
+
+
 
     const toggleExpand = () => {
         setExpanded(!expanded);
@@ -44,7 +45,7 @@ export default function ExerciseCard(props){
             {!isOnWorkout && isOnExercisesPage && (
                 <div className="flex">
                     <label className="block mt-2">Select Workout:</label>
-                    <select onChange={(e) => setSelectedWorkout(e.target.value)}  
+                    <select onChange={(e) => {setSelectedWorkout(e.target.value);}}  
                     className="m-2 border border-gray-300 rounded">
                         <option value="">Select a workout</option>
                         {props.availableWorkouts.map((workout) => (
