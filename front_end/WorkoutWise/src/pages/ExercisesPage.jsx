@@ -65,7 +65,6 @@ export const ExercisesPage = () => {
                         availableWorkouts={workouts}
                     />
                 ))}
-            
             </ol>
             <div className="flex justify-center pb-3">
             <button onClick={loadMoreExercises} className="bg-green-700 hover:bg-green-750 text-white py-1 px-4 rounded w-64">Load More</button>
