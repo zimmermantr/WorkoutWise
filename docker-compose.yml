@@ -1,0 +1,44 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: personal_project_db
+    ports:
+      - "5432:5432"
+    networks:
+      - workout_wise
+
+  backend:
+    build:
+      context: ./back_end
+      dockerfile: Dockerfile
+    container_name: backend
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - DEBUG=${DEBUG}
+      - DB_HOST=postgres
+    ports:
+      - "8000:8000"
+    networks:
+      - workout_wise
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./front_end/WorkoutWise
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "80:80"
+    networks:
+      - workout_wise
+
+networks:
+  workout_wise:
+    driver: bridge

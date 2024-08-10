@@ -1,19 +1,18 @@
-FROM python:latest as build
+# Use an official Python runtime as a parent image
+FROM python:3-alpine
 
 WORKDIR /app
 
-COPY requirements.txt .
+# Install dependencies
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r requirements.txt
+# Copy project
+COPY . /app/
 
-FROM python:latest
-
-WORKDIR /app
-
-COPY --from=build /app /app
-
-COPY . .
-
+# Expose port 8000 to access Django app
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Start the Django app using the built-in server
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["sh", "-c", "./wait.sh && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]

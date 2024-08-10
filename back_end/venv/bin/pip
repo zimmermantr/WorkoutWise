@@ -1,4 +1,4 @@
-#!/Users/tristan/Desktop/CodePlatoon/personal_project/WorkoutWise/back_end/venv/bin/python3.12
+#!/Users/tristan/Desktop/CodePlatoon/personal_project/WorkoutWise/back_end/venv/bin/python3.11
 # -*- coding: utf-8 -*-
 import re
 import sys
